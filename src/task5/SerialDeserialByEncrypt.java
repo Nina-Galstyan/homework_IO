@@ -7,6 +7,13 @@ public class SerialDeserialByEncrypt {
     private static final String FILE_PATH = "C:\\Users\\Admin\\Documents\\git\\homework_IO\\src\\task4\\example";
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+        serializeCustomer();
+
+        deserialization();
+    }
+
+    private static void serializeCustomer() throws IOException {
         Customer customer = new Customer("Tigran", "077000000", 21, "1111 2222 555");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH));
         String cardNumber = customer.getCardNumber();
@@ -14,13 +21,15 @@ public class SerialDeserialByEncrypt {
         customer.setCardNumber(encodeCardNumber);
         objectOutputStream.writeObject(customer);
         objectOutputStream.close();
+    }
+
+    private static void deserialization() throws IOException, ClassNotFoundException {
         ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(FILE_PATH));
-        byte[] decode = Base64.getDecoder().decode(encodeCardNumber);
-        String decodedCardNumber = new String(decode);
-        customer.setCardNumber(decodedCardNumber);
-        Object deserialization = objectInputStream.readObject();
-        Customer deserCustomer = (Customer) deserialization;
-        System.out.println(deserCustomer);
+        Customer deserializedCustomer = (Customer) objectInputStream.readObject();
+        byte[] decode = Base64.getDecoder().decode(deserializedCustomer.getCardNumber());
+        String deserializedStringCardNumber = new String(decode);
+        deserializedCustomer.setCardNumber(deserializedStringCardNumber);
+        System.out.println(deserializedCustomer);
     }
 
 }
