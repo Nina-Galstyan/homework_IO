@@ -1,3 +1,5 @@
+package task1;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -20,7 +22,7 @@ public class DownloadFromNetToHtml {
     public void downloadBy8kbBuffer(String urlStr) throws IOException {
         String fileName = DOWNLOAD_PATH + urlStr + System.currentTimeMillis() + ".html";
         URL website = new URL(urlStr);
-        byte[] buffer = new byte[8192];
+//        byte[] buffer = new byte[8192];
         try (ReadableByteChannel rbc = Channels.newChannel(website.openStream());
              FileOutputStream outputStream = new FileOutputStream(fileName)) {
             outputStream.getChannel().transferFrom(rbc, 0, 8192);
